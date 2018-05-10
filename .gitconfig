@@ -8,8 +8,7 @@
     ci = commit
     cia = commit --amend
     ciaa = commit -a --amend
-    cif = "!git ci --fixup HEAD"
-    cifa = "!git ci -a --fixup HEAD"
+    cif = commit --fixup 
 
     co = checkout
     com = checkout master
