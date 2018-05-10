@@ -21,9 +21,7 @@
     dh = diff HEAD~1
     dw = diff -w
 
-    f = fetch
-    fp = fetch -p
-    fap = fetch --all -p
+    f = fetch -p --all --tags
 
     l1 = log --oneline                                                                                                                                                                                                                                   
     l1b = "!git log --oneline $(git merge-base HEAD @{-1}).."
@@ -33,9 +31,9 @@
 
     r = "!git rebase -i $(git merge-base HEAD @{-1})"
     ras = "!git rebase -i $(git merge-base HEAD @{-1}) --autosquash"
-    rc = rebase --continue
     raac = "!git aa; git rc"
     ra = rebase --abort
+    rc = rebase --continue
 
     st = status
                         
