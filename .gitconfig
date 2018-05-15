@@ -25,8 +25,8 @@
     l1 = log --oneline                                                                                                                                                                                                                                   
     l1b = "!git log --oneline $(git merge-base HEAD @{-1}).."
 
-    p = push
-    pf = push -f
+    p = pull
+    pr = pull --rebase 
 
     r = "!git rebase -i $(git merge-base HEAD @{-1})"
     ras = "!git rebase -i $(git merge-base HEAD @{-1}) --autosquash"
