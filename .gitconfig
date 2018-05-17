@@ -28,6 +28,8 @@
     p = pull
     pr = pull --rebase 
 
+    pushu = "!git push -u origin `git symbolic-ref --short HEAD`"
+
     r = "!git rebase -i $(git merge-base HEAD @{-1})"
     ras = "!git rebase -i $(git merge-base HEAD @{-1}) --autosquash"
     raac = "!git aa; git rc"
