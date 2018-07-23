@@ -15,6 +15,7 @@ alias l='ls -l'
 alias la='l -a'
 alias v='vim'
 alias tf='tail -f'
+alias gt='go test ./...'
 # Enables alias expansion while using sudo
 alias sudo='sudo '
 
