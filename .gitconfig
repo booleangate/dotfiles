@@ -43,3 +43,5 @@
 	email = booleangate@gmail.com
 [push]
 	default = simple
+[pull]
+	rebase = true
