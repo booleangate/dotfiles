@@ -42,6 +42,6 @@
 	name = Justin Johnson
 	email = booleangate@gmail.com
 [push]
-	default = simple
+    default = simple
 [pull]
 	rebase = true
