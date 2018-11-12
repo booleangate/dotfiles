@@ -13,18 +13,6 @@ configure_deps() {
         if [ ! -d /usr/local/opt/coreutils ]; then
             brew install coreutils
         fi
-    else
-        if [ ! -d ~/.pyenv ]; then
-            curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
-        fi
-
-        if has_bin 'pyenv'; then
-            pyenv install -s 2.7.9
-            pyenv install -s 3.3.3
-            pyenv install -s 3.6.3
-            pyenv rehash
-            eval "$(pyenv init -)"
-        fi
     fi
 }
 

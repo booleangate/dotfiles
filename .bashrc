@@ -56,12 +56,6 @@ if [ -d /usr/local/opt/coreutils/ ]; then
     MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
-# python version manager
-if [ -d ~/.pyenv ]; then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-fi
-has_bin 'pyenv' && eval "$(pyenv init -)"
-
 # ruby version manager
 if [ -d ~/.rvm ]; then
     source "$HOME/.rvm/scripts/rvm"
