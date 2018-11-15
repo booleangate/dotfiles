@@ -48,7 +48,7 @@ fi
 
 export EDITOR=vim
 
-PATH=$PATH:$HOME/.bin
+PATH=$PATH:$HOME/.bin:/usr/local/sbin
 
 # coreutils 
 if [ -d /usr/local/opt/coreutils/ ]; then
