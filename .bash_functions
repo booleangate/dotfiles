@@ -26,3 +26,7 @@ has_bin() {
 
     return 1
 }
+
+oproxy() {
+    ~/.raxvm/omniprox.macos -host router.raxvm.pos-api.com -port $1
+}

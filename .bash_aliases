@@ -2,8 +2,8 @@
 
 if ! is_mac; then
     alias ls='ls -lF --color=auto'
-else
-    alias oproxy='open /Applications/Royal\ TSX.app/ & haproxy -d -f ~/.raxvm/haproxy.conf'
+#else
+    # alias oproxy='open /Applications/Royal\ TSX.app/ & haproxy -d -f ~/.raxvm/haproxy.conf'
 fi
 
 alias git-key='eval "$(ssh-agent -s)";ssh-add ~/.ssh/id_github'
