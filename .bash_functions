@@ -30,3 +30,10 @@ has_bin() {
 oproxy() {
     ~/.raxvm/omniprox.macos -host router.raxvm.pos-api.com -port $1
 }
+
+git_tag() {
+    tag=$1
+    force=$2
+    git tag $force -a $tag -m $tag
+    git push $force origin $tag
+}
