@@ -59,7 +59,7 @@ screen -t 'vpos' 13
 stuff 'cd ~/dev/agent/; ./run.sh virtual'
 
 screen -t 'connect' 14
-stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/build connect; ./dist/linux/amd64/connect-proxy ./om/backend/connect/config/config.json ./om/backend/connect/config/dev_config.json'
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/connect'
 
 screen -t 'proxy' 15
 stuff 'cd ~/dev/proxy/; ./run.sh'
