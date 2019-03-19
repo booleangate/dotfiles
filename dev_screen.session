@@ -2,64 +2,78 @@ multiuser on
 acladd blamar
 acladd curban
 acladd jfaulkner
-acladd jhemstreet
 acladd jjohnson
 acladd jmorgan
 acladd jsleppy
+acladd jrobertson
 acladd kpfab
-acladd llantz
 acladd lmcculley
 acladd mtaczak
 acladd mwhitehead
-acladd pkearney
 
 chdir /home/jjohnson/dev
 
 select 0
 title 'bash'
-stuff 'cd ~/dev/'
+stuff 'cd ~/dev/
+'
 
 screen -t 'bash' 1
-stuff 'cd ~/dev/'
+stuff 'cd ~/dev/
+'
 
 screen -t 'db' 2
-stuff 'mysql -uroot positronics'
+stuff 'mysql -uroot positronics
+'
 
 screen -t 'go-api' 3
-stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/api'
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/api
+'
 
 screen -t 'py-api' 4
-stuff 'cd ~/dev/api/; . activate; ./run.sh'
+stuff 'cd ~/dev/api/; . activate; ./run.sh
+'
 
 screen -t 'go-tasks' 5
-stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/tasks'
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/tasks
+'
 
 screen -t 'py-tasks' 6
-stuff 'cd ~/dev/tasks/; . activate; ./run.sh quiet'
+stuff 'cd ~/dev/tasks/; . activate; ./run.sh quiet
+'
 
 screen -t 'panel' 7
-stuff 'cd ~/dev/panel/; ./run.sh'
+stuff 'cd ~/dev/panel/; ./run.sh
+'
 
 screen -t 'mms-ui' 8
-stuff 'cd ~/dev/mms-ui/; ./run.sh'
+stuff 'cd ~/dev/mms-ui/; ./run.sh
+'
 
 screen -t 'mp-ui' 9
-stuff 'cd ~/dev/marketplace-ui/; ./run.sh'
+stuff 'cd ~/dev/marketplace-ui/; ./run.sh
+'
 
 screen -t 'mp-api' 10
-stuff 'cd ~/dev/marketplace-api/; ./run.sh'
+stuff 'cd ~/dev/marketplace-api/; ./run.sh
+'
 
 screen -t 'dash' 11
-stuff 'cd ~/dev/internal-dash/; ./run.sh'
+stuff 'cd ~/dev/internal-dash/; ./run.sh
+'
 
 screen -t 'setup' 12
-stuff 'cd ~/dev/setup; ./run.sh'
+stuff 'cd ~/dev/setup; ./run.sh
+'
 
 screen -t 'vpos' 13
-stuff 'cd ~/dev/agent/; ./run.sh virtual'
+stuff 'cd ~/dev/agent/; ./run.sh virtual
+'
 
 screen -t 'connect' 14
-stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/connect'
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/connect
+'
 
 screen -t 'proxy' 15
-stuff 'cd ~/dev/proxy/; ./run.sh'
+stuff 'cd ~/dev/proxy/; ./run.sh
+'
