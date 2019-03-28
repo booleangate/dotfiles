@@ -10,6 +10,8 @@ HISTCONTROL=ignoredups:ignorespace
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+PROMPT_COMMAND="echo -ne \"\033]0;$1 ($HOSTNAME)\007\""
+
 # append to the history file, don't overwrite it
 shopt -s histappend
 
