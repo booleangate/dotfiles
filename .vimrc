@@ -8,13 +8,13 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-" Plugin 'scrooloose/syntastic'
 Plugin 'tomasr/molokai'
 Plugin 'gko/vim-coloresque'
 Plugin 'groenewege/vim-less.git'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'othree/html5.vim'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'fatih/vim-go'
 Bundle 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim'
 Bundle 'nvie/vim-flake8'
@@ -37,6 +37,9 @@ let g:syntastic_python_flake8_args = ['-m', 'flake8']
 let g:ctrlp_working_path_mode = 'ra'
 let g:rehash256 = 1
 set completeopt-=preview
+
+" vim-go. See https://github.com/fatih/vim-go/blob/master/doc/vim-go.txt
+let g:go_test_show_name = 1
 
 
 " Turn plugin features on
