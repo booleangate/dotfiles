@@ -81,5 +81,5 @@ export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 
 
-export PATH=$PATH:/usr/local/go/bin
 export GOPATH=~/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
