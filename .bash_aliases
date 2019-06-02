@@ -20,9 +20,3 @@ alias sudo='sudo '
 if command -v ack-grep >/dev/null; then
   alias ack='ack-grep'
 fi
-
-if command -v thefuck >/dev/null; then
-    eval "$(thefuck --alias)"
-fi
-
-function c() { curl -vvv $@; echo; }

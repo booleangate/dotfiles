@@ -58,12 +58,6 @@ if [ -d /usr/local/opt/coreutils/ ]; then
     MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
-# ruby version manager
-if [ -d ~/.rvm ]; then
-    source "$HOME/.rvm/scripts/rvm"
-    PATH=$PATH:$HOME/.rvm/bin
-fi
-
 # node version manager
 if [ -d ~/.nvm ]; then
     export NVM_DIR="$HOME/.nvm"
@@ -78,8 +72,8 @@ export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 
 # other crap
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
-
-
 export GOPATH=~/go
+
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
