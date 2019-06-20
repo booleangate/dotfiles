@@ -16,6 +16,7 @@ alias l='ls -l'
 alias v='vim'
 # Enables alias expansion while using sudo
 alias sudo='sudo '
+alias unbuffered='stdbuf -i0 -o0 -e0'
 
 if command -v ack-grep >/dev/null; then
   alias ack='ack-grep'
