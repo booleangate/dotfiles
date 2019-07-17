@@ -1,7 +1,7 @@
 [alias]
     aa = add -A
 
-    b = branch
+    b = branch -vv
     bd = branch -d
     bD = branch -D
 
