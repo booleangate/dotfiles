@@ -70,10 +70,9 @@ parse_git_branch() {
 }
 export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 
-# other crap
+# Lanaguage crap
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export GOPATH=~/go
+export PATH=$PATH:/usr/local/opt/go/libexec/bin:$PATH:/usr/local/go/bin:$GOPATH/bin
+[ -d ~/.ghcup ] && export PATH="$HOME/.cabal/bin:${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/bin:$PATH"
 
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
