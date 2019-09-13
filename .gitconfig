@@ -7,8 +7,9 @@
 
     ci = commit
     cia = commit --amend
-    ciaa = commit -a --amend
     cif = commit --fixup 
+    ciaa = commit -a --amend
+    ciaf = commit -a --fixup 
 
     co = checkout
     com = checkout master
