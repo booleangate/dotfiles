@@ -4,6 +4,7 @@
     b = branch -vv
     bd = branch -d
     bD = branch -D
+    bg = "!git b | grep gone"
 
     ci = commit
     cia = commit --amend
