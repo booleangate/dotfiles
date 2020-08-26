@@ -21,6 +21,7 @@
     dc = diff --cached
     dh = diff HEAD~1
     dw = diff -w
+    dm = diff master..
 
     f = fetch -p --all --tags
 
@@ -38,7 +39,11 @@
     ra = rebase --abort
     rc = rebase --continue
 
+
     st = status
+
+    up = "!git com && git p && git f"
+    remaster ="!git com && git p && git co - && git rebase origin/master"
                         
 [user]
 	name = Justin Johnson
