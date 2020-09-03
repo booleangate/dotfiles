@@ -77,3 +77,23 @@ stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/connect
 screen -t 'proxy' 15
 stuff 'cd ~/dev/proxy/; ./run.sh
 '
+
+screen -t 'brink' 16
+stuff 'cd ~/dev/agent; ./run.sh brink
+'
+
+screen -t 'broker' 17
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/broker
+'
+
+screen -t 'mms' 18
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/mms
+'
+
+screen -t 'mmsi' 19
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/mmsi
+'
+
+screen -t 'webhooks' 20
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/k8s/run backend/webhooks'
+'
