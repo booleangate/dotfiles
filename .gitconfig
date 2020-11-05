@@ -43,8 +43,9 @@
     st = status
 
     up = "!git com && git p && git f"
-    remaster ="!git com && git p && git co - && git rebase origin/master"
     purge = "!git f && git bg | cut -f1-3 -d ' ' | xargs git bd"
+    pup = "!git up && git purge"
+    remaster ="!git com && git p && git co - && git rebase origin/master"
                         
 [user]
 	name = Justin Johnson
