@@ -1,0 +1,63 @@
+multiuser on
+acladd blamar
+acladd jjohnson
+acladd jrobertson
+acladd kpfab
+acladd lmcculley
+acladd mtaczak
+acladd egrebennikov
+
+chdir /home/jjohnson/dev
+
+select 0
+title 'bash'
+stuff 'cd ~/dev/
+'
+
+screen -t 'bash' 1
+stuff 'cd ~/dev/
+'
+
+screen -t 'db' 2
+stuff 'mysql -uroot positronics
+'
+
+screen -t 'go-api' 3
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/api
+'
+
+screen -t 'mms' 4
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/mms
+'
+
+screen -t 'mmsi' 5
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/mmsi
+'
+
+screen -t 'mms-ui' 6
+stuff 'cd ~/dev/mms-ui/; ./run.sh
+'
+
+screen -t 'panel' 7
+stuff 'cd ~/dev/panel/; ./run.sh
+'
+
+screen -t 'dash' 8
+stuff 'cd ~/dev/internal-dash/; ./run.sh
+'
+
+screen -t 'py-api' 9
+stuff 'cd ~/dev/api/; . activate; ./run.sh
+'
+
+screen -t 'py-tasks' 10
+stuff 'cd ~/dev/tasks/; . activate; ./run.sh quiet
+'
+
+screen -t 'go-tasks' 11
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/tasks
+'
+
+screen -t 'webhooks' 12
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/k8s/run backend/webhooks
+'

@@ -1,0 +1,32 @@
+multiuser on
+acladd blamar
+acladd jjohnson
+acladd jrobertson
+acladd kpfab
+acladd lmcculley
+acladd mtaczak
+acladd egrebennikov
+
+chdir /home/jjohnson/dev
+
+select 0
+title 'bash'
+stuff 'cd ~/dev/
+'
+
+screen -t 'mp-api' 1
+stuff 'cd ~/dev/marketplace-api/; ./run.sh
+'
+
+screen -t 'mp-ui' 2
+stuff 'cd ~/dev/marketplace-ui/; ./run.sh
+'
+
+screen -t 'setup' 3
+stuff 'cd ~/dev/setup; ./run.sh
+'
+
+screen -t 'proxy' 4
+stuff 'cd ~/dev/proxy/; ./run.sh
+'
+

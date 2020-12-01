@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+cd $(dirname "${BASH_SOURCE[0]}")
+
+screen -dmS main 
+screen -xr main -X source main.session 
+screen -dmS agent
+screen -xr agent -X source agent.session 
+screen -dmS other
+screen -xr other -X source other.session 
+
+screen -xr main -p 0

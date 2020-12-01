@@ -1,0 +1,31 @@
+multiuser on
+acladd blamar
+acladd jjohnson
+acladd jrobertson
+acladd kpfab
+acladd lmcculley
+acladd mtaczak
+acladd egrebennikov
+
+chdir /home/jjohnson/dev
+
+select 0
+title 'bash'
+stuff 'cd ~/dev/
+'
+
+screen -t 'connect' 1
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/connect
+'
+
+screen -t 'broker' 2
+stuff 'cd ~/go/src/github.com/omnivore/giganto; ./bin/backend/broker
+'
+
+screen -t 'brink' 3
+stuff 'cd ~/dev/agent; ./run.sh brink
+'
+
+screen -t 'vpos' 4
+stuff 'cd ~/dev/agent/; ./run.sh virtual
+'
