@@ -15,8 +15,6 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'othree/html5.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'fatih/vim-go'
-Bundle 'mattn/webapi-vim'
-Bundle 'mattn/gist-vim'
 Bundle 'nvie/vim-flake8'
 
 call vundle#end()
