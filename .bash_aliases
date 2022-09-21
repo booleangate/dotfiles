@@ -17,6 +17,8 @@ alias v='vim'
 # Enables alias expansion while using sudo
 alias sudo='sudo '
 alias unbuffered='stdbuf -i0 -o0 -e0'
+alias tp='telepresence'
+alias tp-reset='tp quit -ur && infra-init && tp connect'
 
 if command -v ack-grep >/dev/null; then
   alias ack='ack-grep'
