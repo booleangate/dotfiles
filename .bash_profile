@@ -1,9 +1,13 @@
 source $HOME/.bashrc
 
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
-
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+export BASH_SILENCE_DEPRECATION_WARNING=1
 export PATH="/opt/homebrew/opt/go@1.17/bin:$PATH"
+
+if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
+. `brew --prefix`/etc/bash_completion.d/git-completion.bash
+fi
 
 if [ -d "$HOME/.nvm" ]; then 
     export NVM_DIR="$HOME/.nvm"
@@ -16,3 +20,4 @@ if [ -d "/Library" ]; then
     # Setting PATH for Python 3.6
     export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 fi
+export PATH="/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
