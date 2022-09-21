@@ -4,16 +4,18 @@
 . ~/.bash_functions
 
 # don't put duplicate lines in the history. See bash(1) for more options
-# ... or force ignoredups and ignorespace
-HISTCONTROL=ignoredups:ignorespace
+HISTCONTROL=ignoredups
+HISTTIMEFORMAT='%F %T '
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-PROMPT_COMMAND="echo -ne \"\033]0;$1 ($HOSTNAME)\007\""
-
-# append to the history file, don't overwrite it
+HISTSIZE=3000
+HISTFILESIZE=$HISTSIZE
+# Configure BASH to append (rather than overwrite the history):
 shopt -s histappend
+# Attempt to save all lines of a multiple-line command in the same entry
+shopt -s cmdhist
+
+export PROMPT_COMMAND="history -a"
+#export PROMPT_COMMAND="echo -ne \"\033]0;$1 ($HOSTNAME)\007\"; history -a;"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
