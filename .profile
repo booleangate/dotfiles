@@ -20,3 +20,5 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+[[ -s "/Users/jjohnson/.gvm/scripts/gvm" ]] && source "/Users/jjohnson/.gvm/scripts/gvm"

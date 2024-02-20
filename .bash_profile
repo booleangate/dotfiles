@@ -18,4 +18,5 @@ if [ -d "/Library" ]; then
     # Setting PATH for Python 3.6
     export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 fi
-export PATH="/opt/homebrew/opt/mysql-client@5.7/bin:$PATH"
+
+export GPG_TTY=$(tty)

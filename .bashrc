@@ -58,13 +58,13 @@ parse_git_branch() {
 }
 export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 
-# Lanaguage crap
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 [ -d ~/.ghcup ] && export PATH="$HOME/.cabal/bin:${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/bin:$PATH"
 
-# Go
-export PATH="/opt/homebrew/opt/go@1.17/bin:$PATH"
-which go &>/dev/null && export PATH=$(go env GOPATH)/bin:$PATH
+export GOPATH=~/go
+export PATH=$PATH:/usr/local/opt/go/libexec/bin:/usr/local/go/bin:$GOPATH/bin
+
+#which go &>/dev/null && export PATH=$(go env GOPATH)/bin:$PATH
 
 if [ -d "$HOME/.volta" ]; then
     export VOLTA_HOME="$HOME/.volta"
