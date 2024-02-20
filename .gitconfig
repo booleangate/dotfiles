@@ -13,7 +13,7 @@
     ciaf = commit -a --fixup 
 
     co = checkout
-    com = checkout master
+    com = checkout main
 
     cp = cherry-pick
 
@@ -21,7 +21,7 @@
     dc = diff --cached
     dh = diff HEAD~1
     dw = diff -w
-    dm = diff master..
+    dm = diff main..
 
     f = fetch -p --all --tags
 
@@ -45,12 +45,19 @@
     up = "!git com && git p && git f"
     purge = "!git f && git bg | cut -f1-3 -d ' ' | xargs git bd"
     pup = "!git up && git purge"
-    remaster ="!git com && git p && git co - && git rebase origin/master"
+    remain ="!git com && git p && git co - && git rebase origin/main"
                         
 [user]
 	name = Justin Johnson
 	email = booleangate@gmail.com
+    #signingkey = 730F8D5221649966
 [push]
     default = simple
 [pull]
 	rebase = true
+[commit]
+    #gpgsign = true
+[gpg]
+    program = gpg
+[init]
+	defaultBranch = main
