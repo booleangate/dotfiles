@@ -26,11 +26,6 @@ configure_git() {
     ssh-add -k ~/.ssh/id_github
 }
 
-configure_npm_packages() {
-    echo 'sudo npm install -g ...'
-    sudo npm install -g eslint omnivore-io/eslint-config.git gulp prettyjson
-}
-
 configure_vim() {
     mkdir -p ~/.vim/tmp
     mkdir -p ~/.vim/bundle
@@ -62,11 +57,10 @@ install_vim_ycm() {
     #cmake -G "Unix Makefiles" . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
 
     # JavaScript
-    ~/.vim/bundle/YouCompleteMe/install.py  --tern-completer
-    cd ~
+    #~/.vim/bundle/YouCompleteMe/install.py  --tern-completer
+    #cd ~
 }
 
 configure_deps
-configure_git
-configure_npm_packages
 configure_vim
+configure_git
