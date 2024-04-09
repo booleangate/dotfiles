@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/.bash_functions
+. ~/.functions
 
 configure_git() {
     if [ ! -e ~/.ssh/id_github ]; then
@@ -20,7 +20,6 @@ configure_npm_packages() {
 configure_vim() {
     mkdir -p ~/.vim/tmp
 }
-
 
 configure_vim
 configure_git

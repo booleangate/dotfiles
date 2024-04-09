@@ -1,7 +1,7 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-. ~/.bash_functions
+. ~/.functions
 
 # don't put duplicate lines in the history. See bash(1) for more options
 HISTCONTROL=ignoredups
@@ -21,15 +21,6 @@ export PROMPT_COMMAND="history -a"
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
 if is_mac; then
     # General auto-complete
     [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
@@ -41,8 +32,8 @@ else
     export TERM=xterm-256color
 fi
 
-[ -f ~/.bash_aliases ] && . ~/.bash_aliases
-[ -f ~/.bash_local ] && . ~/.bash_local
+[ -f ~/.aliases ] && . ~/.aliases
+[ -f ~/.local ] && . ~/.local
 
 export EDITOR=vim
 
@@ -63,15 +54,3 @@ export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
 
 export GOPATH=~/go
 export PATH=$PATH:/usr/local/opt/go/libexec/bin:/usr/local/go/bin:$GOPATH/bin
-
-#which go &>/dev/null && export PATH=$(go env GOPATH)/bin:$PATH
-
-if [ -d "$HOME/.volta" ]; then
-    export VOLTA_HOME="$HOME/.volta"
-    export PATH="$VOLTA_HOME/bin:$PATH"
-fi
-export AWS_PROFILE=localdev-session
-
-# >>>> Vagrant command completion (start)
-. /opt/vagrant/embedded/gems/2.3.2/gems/vagrant-2.3.2/contrib/bash/completion.sh
-# <<<<  Vagrant command completion (end)

@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+. ~/.functions
+
+configure_deps() {
+    if is_mac; then
+        if ! has_bin 'brew'; then
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
+
+        brew tap homebrew/cask-fonts
+        brew install node coreutils font-hack-nerd-font starship
+        brew install --cask iterm2
+    fi
+}
+
+configure_git() {
+    if [ ! -e ~/.ssh/id_github ]; then
+        echo 'Install ~/.ssh/id_github first'
+        exit
+    fi
+
+    
+    if ! `ps aux | grep -q 'ssh-agent -s'`; then 
+        eval `ssh-agent -s`
+        ssh-add -k ~/.ssh/id_github
+    else
+        echo "Github key already setup"
+    fi
+}
+
+configure_vim() {
+    mkdir -p ~/.vim/tmp
+    mkdir -p ~/.vim/bundle
+    mkdir -p ~/.vim/colors
+    
+    # Install vundle
+    [ ! -d ~/.vim/bundle/Vundle.vim ] && git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    cd ~/.vim/bundle/Vundle.vim
+    git pull
+    cd -
+    
+    vim +PluginInstall +qall
+}
+
+configure_starship() {
+    starship preset gruvbox-rainbow -o ~/.config/starship.toml
+}
+
+configure_deps
+configure_vim
+configure_starship
+configure_git
