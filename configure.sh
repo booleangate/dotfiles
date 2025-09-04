@@ -3,16 +3,14 @@
 . ~/.bash_functions
 
 configure_deps() {
-    if is_mac; then
-        if ! has_bin 'brew'; then
-            /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        fi
+    if ! has_bin 'brew'; then
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
 
-        has_bin 'node' || brew install node
+    has_bin 'node' || brew install node
 
-        if [ ! -d /usr/local/opt/coreutils ]; then
-            brew install coreutils
-        fi
+    if [ ! -d /usr/local/opt/coreutils ]; then
+        brew install coreutils
     fi
 }
 
@@ -46,19 +44,8 @@ install_vim_ycm() {
     ## see https://github.com/Valloric/YouCompleteMe#full-installation-guide
     # Uncomment this business if you need C-family auto-completion
     if ! command -v cmake >/dev/null; then
-        if is_mac; then
-            brew install cmake
-        else
-            sudo apt-get install cmake
-        fi
+        brew install cmake
     fi
-    #mkdir /tmp/ycm_build
-    #cd /tmp/ycm_build
-    #cmake -G "Unix Makefiles" . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
-
-    # JavaScript
-    #~/.vim/bundle/YouCompleteMe/install.py  --tern-completer
-    #cd ~
 }
 
 configure_deps
