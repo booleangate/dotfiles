@@ -54,6 +54,8 @@ fi
 
 export PATH=$PATH:/usr/local/opt/go/libexec/bin:/usr/local/go/bin:$GOPATH/bin
 
-
 [ -f ~/.bash_local ] && . ~/.bash_local
+
+# Gruvbox doesn't work well in Terminal.  Use basic prompt instead.
+export STARSHIP_CONFIG=~/.config/starship-bash.toml
 eval "$(starship init bash)"
