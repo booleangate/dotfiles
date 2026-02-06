@@ -12,8 +12,8 @@ configure_git() {
         exit
     fi
 
-    eval `ssh-agent -s`
-    ssh-add -k ~/.ssh/id_github
+    eval `ssh-agent -s` > /dev/null
+    ssh-add -q -k ~/.ssh/id_github
 }
 
 configure_vim() {
