@@ -2,11 +2,8 @@
 
 configure_deps() {
     type brew &>/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    type node || brew install node
-
-    if [ ! -d /usr/local/opt/coreutils ]; then
-        brew install coreutils
-    fi
+    type node &> /dev/null|| brew install node
+    [ -d /usr/local/opt/coreutils ] || brew install coreutils
 }
 
 configure_git() {
