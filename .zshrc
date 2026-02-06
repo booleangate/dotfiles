@@ -25,9 +25,9 @@ if [ type starship >/dev/null 2>&1 ]; then
 fi
 
 # Coreutils
-if [ -d /usr/local/opt/coreutils/ ]; then
-    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-    MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+if [ -d /opt/homebrew/opt/coreutils/ ]; then
+    PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+    MANPATH="/opt/homebrew/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
 # Zsh for Homebrew
