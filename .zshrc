@@ -1,5 +1,3 @@
-autoload -Uz compinit
-compinit
 export CLICOLOR=1
 export EDITOR=vim
 
@@ -19,11 +17,6 @@ if [ -d "$HOME/.bun" ]; then
     [ -s "${HOME}/.bun/_bun" ] && source "${HOME}/.bun/_bun"
 fi
 
-# Starship
-if [ type starship >/dev/null 2>&1 ]; then
-    eval "$(starship init zsh)"
-fi
-
 # Coreutils
 if [ -d /opt/homebrew/opt/coreutils/ ]; then
     PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
@@ -37,3 +30,10 @@ fi
 
 # Compinit
 autoload -Uz compinit && compinit
+
+# Starship
+if type starship >/dev/null; then
+    eval "$(starship init zsh)"
+else 
+    echo "Starship not found"
+fi

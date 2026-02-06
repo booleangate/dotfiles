@@ -1,6 +1,6 @@
 #!/bin/bash
 
-configure_deps() {
+install_deps() {
     type brew &>/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     type node &> /dev/null|| brew install node
     [ -d /opt/homebrew/opt ] || brew install coreutils
@@ -22,10 +22,12 @@ configure_vim() {
     mkdir -p ~/.vim/colors
 
     # install vundle
-    [ ! -d ~/.vim/bundle/Vundle.vim ] && git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    cd ~/.vim/bundle/Vundle.vim
-    git pull
-    cd -
+    vundle_dir="$HOME/.vim/bundle/Vundle.vim"
+    [ ! -d ~/.vim/bundle/Vundle.vim ] && git clone --quiet https://github.com/gmarik/Vundle.vim.git "${vundle_dir}"
+    cd "${vundle_dir}" || exit
+    git pull --quiet
+    cd - > /dev/null
+
 
     vim +PluginInstall +qall
 
@@ -37,6 +39,31 @@ configure_vim() {
     fi
 }
 
-configure_deps
+install_fonts() {
+    for zip in configure/fonts/*.zip; do
+        unzip -q -o $zip -d /Library/Fonts/
+    done
+}
+
+install_starship() {
+    # TODO: force install with FORCE
+    if ! type starship &> /dev/null; then 
+        curl -sS https://starship.rs/install.sh | FORCE=1 sh > /dev/null
+        echo "🚀 Starship installed - Be sure to set your terminal font to one of the automatically installed Fira fonts."
+        echo "Or, install a custom Nerd Font from https://www.nerdfonts.com/font-downloads."
+    fi
+}
+
+update_shell() {
+    # If in zsh, start a new shell
+    if [ "$SHELL" = "/bin/zsh" ]; then
+        exec zsh
+    fi
+}
+
+install_deps
+install_fonts
+install_starship
 configure_vim
 configure_git
+update_shell
