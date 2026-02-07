@@ -3,7 +3,6 @@ export EDITOR=vim
 
 source ~/.aliases
 
-
 # Go
 [ -d "$HOME/go/bin" ] && export PATH="$HOME/go/bin:$PATH"
 
