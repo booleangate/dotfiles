@@ -14,6 +14,8 @@ alias sudo='sudo '
 alias unbuffered='stdbuf -i0 -o0 -e0'
 alias local-https='caddy reverse-proxy --from localhost --to localhost:8080'
 
+alias ona='gitpod'
+
 if command -v ack-grep >/dev/null; then
   alias ack='ack-grep'
 fi
