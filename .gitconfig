@@ -8,9 +8,9 @@
 
     ci = commit
     cia = commit --amend
-    cif = commit --fixup 
+    cif = commit --fixup
     ciaa = commit -a --amend
-    ciaf = commit -a --fixup 
+    ciaf = commit -a --fixup
 
     co = checkout
     com = checkout main
@@ -25,11 +25,14 @@
 
     f = fetch -p --all --tags
 
-    l1 = log --oneline                                                                                                                                                                                                                                   
+    # 'h' for 'half'
+    h = bisect
+
+    l1 = log --oneline
     l1b = "!git log --oneline $(git merge-base HEAD @{-1}).."
 
     p = pull
-    pr = pull --rebase 
+    pr = pull --rebase
 
     pushu = "!git push -u origin `git symbolic-ref --short HEAD`"
 
@@ -39,18 +42,17 @@
     ra = rebase --abort
     rc = rebase --continue
 
-
     st = status
 
     up = "!git com && git p && git f"
     purge = "!git f && git bg | cut -f1-3 -d ' ' | xargs git bd"
     pup = "!git up && git purge"
     remain ="!git com && git p && git co - && git rebase origin/main"
-                        
+
 [user]
 	name = Justin Johnson
 	email = booleangate@gmail.com
-    #signingkey = 730F8D5221649966
+    #signingkey = TODO for GPG
 [push]
     default = simple
 [pull]
