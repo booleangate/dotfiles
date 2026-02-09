@@ -2,8 +2,10 @@
 
 install_deps() {
     type brew &>/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    type node &> /dev/null|| brew install node
     [ -d /opt/homebrew/opt ] || brew install coreutils
+    brew install terminal-notifier
+
+    type node &> /dev/null|| brew install node
 }
 
 configure_git() {
