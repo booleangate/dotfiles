@@ -23,7 +23,14 @@
     dw = diff -w
     dm = diff main..
 
-    f = fetch -p --all --tags
+    # With split view - Need to `brew install delta` for these.
+    ds =  "!GIT_PAGER=delta git diff"
+    dcs = "!GIT_PAGER=delta git diff --cached"
+    dhs = "!GIT_PAGER=delta git diff HEAD~1"
+    dws = "!GIT_PAGER=delta git diff -w"
+    dms = "!GIT_PAGER=delta git diff main.."
+
+    f = fetch --prune --prune-tags --no-all --no-tags
 
     # 'h' for 'half'
     h = bisect
@@ -31,8 +38,8 @@
     l1 = log --oneline
     l1b = "!git log --oneline $(git merge-base HEAD @{-1}).."
 
-    p = pull
-    pr = pull --rebase
+    p = pull --no-tags
+    pr = pull --no-tags --rebase
 
     pushu = "!git push -u origin `git symbolic-ref --short HEAD`"
 
@@ -52,14 +59,19 @@
 [user]
 	name = Justin Johnson
 	email = booleangate@gmail.com
-    #signingkey = TODO for GPG
 [push]
     default = simple
 [pull]
 	rebase = true
-[commit]
-    #gpgsign = true
-[gpg]
-    program = gpg
 [init]
 	defaultBranch = main
+[core]
+    # Uncomment this to default to split view diffs, otherwise us the git `d*s` aliases (see above)
+    #pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	side-by-side = true
+	navigate = true
+[diff]
+	colorMoved = zebra

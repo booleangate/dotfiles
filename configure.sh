@@ -5,7 +5,8 @@ install_deps() {
     [ -d /opt/homebrew/opt ] || brew install coreutils
     brew install terminal-notifier
 
-    type node &> /dev/null|| brew install node
+    type node &> /dev/null || brew install node
+    type delta &> /dev/null || brew install delta
 }
 
 configure_git() {
