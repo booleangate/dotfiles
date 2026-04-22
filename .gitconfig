@@ -30,7 +30,7 @@
     dws = "!GIT_PAGER=delta git diff -w"
     dms = "!GIT_PAGER=delta git diff main.."
 
-    f = fetch --prune --prune-tags --no-all --no-tags
+    f = fetch --prune --no-all --no-tags
 
     # 'h' for 'half'
     h = bisect
