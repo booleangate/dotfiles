@@ -56,6 +56,8 @@
     ras = "!git rebase -i $(git merge-base HEAD @{-1}) --autosquash"
     # "rebase onto"
     ro = "!/${HOME}/config/git-rebase.sh"
+    # "rebase onto" with fuzzy search
+    ros = "!git ro $(git branch --all | grep upmo | grep -v remote | fzf)"
     # rebase against main
     remain ="!git com && git p && git co - && git rebase origin/main"
 
