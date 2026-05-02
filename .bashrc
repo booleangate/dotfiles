@@ -56,3 +56,5 @@ export PATH=$PATH:/usr/local/opt/go/libexec/bin:/usr/local/go/bin:$GOPATH/bin
 # Gruvbox doesn't work well in Terminal.  Use basic prompt instead.
 export STARSHIP_CONFIG=~/.config/starship-bash.toml
 eval "$(starship init bash)"
+
+. "$HOME/.local/bin/env"

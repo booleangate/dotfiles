@@ -7,3 +7,5 @@ if [ -f `brew --prefix`/etc/bash_completion.d/git-completion.bash ]; then
 fi
 
 export GPG_TTY=$(tty)
+
+. "$HOME/.local/bin/env"

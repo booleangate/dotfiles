@@ -22,3 +22,5 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 [[ -s "/Users/jjohnson/.gvm/scripts/gvm" ]] && source "/Users/jjohnson/.gvm/scripts/gvm"
+
+. "$HOME/.local/bin/env"

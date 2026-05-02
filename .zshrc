@@ -36,3 +36,4 @@ if type starship >/dev/null; then
 else 
     echo "Starship not found"
 fi
+. "$HOME/.local/bin/env"
