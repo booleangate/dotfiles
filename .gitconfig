@@ -14,6 +14,7 @@
 
     co = checkout
     com = checkout main
+    cos = "!git checkout $(git branch --all | grep upmo | grep -v remote | fzf)"
 
     cp = cherry-pick
 
@@ -23,7 +24,7 @@
     dw = diff -w
     dm = diff main..
 
-    # With split view - Need to `brew install delta` for these.
+    # With split view
     ds =  "!GIT_PAGER=delta git diff"
     dcs = "!GIT_PAGER=delta git diff --cached"
     dhs = "!GIT_PAGER=delta git diff HEAD~1"
@@ -35,7 +36,11 @@
     # 'h' for 'half'
     h = bisect
 
+    ### Logging
     l1 = log --oneline
+    # log all commits for the current branch.  MUST have checked out the parent branch (e.g. the branch from which the
+    # current branch was forked) and then this branch for merge-base to properly identify the first commit of this
+    # branch.
     l1b = "!git log --oneline $(git merge-base HEAD @{-1}).."
 
     p = pull --no-tags
@@ -43,18 +48,39 @@
 
     pushu = "!git push -u origin `git symbolic-ref --short HEAD`"
 
+    ### Starting rebases
+    #
+    # "rebase current branch" - Like l1b, MUST have checked out parent branch first and then this branch
     r = "!git rebase -i $(git merge-base HEAD @{-1})"
+    # "rebase with auto-squash"
     ras = "!git rebase -i $(git merge-base HEAD @{-1}) --autosquash"
+    # "rebase onto"
+    ro = "!/${HOME}/config/git-rebase.sh"
+    # rebase against main
+    remain ="!git com && git p && git co - && git rebase origin/main"
+
+    ### Handling merge conflicts
     raac = "!git aa; git rc"
     ra = rebase --abort
     rc = rebase --continue
+
+    # gh stack stuff
+    sa = "!gh stack add"
+    sb = "!gh stack bottom"
+    sd = "!gh stack down"
+    sl = "!gh stack view --short"
+    sp = "!gh stack push"
+    sr = "!gh stack rebase"
+    ss = "!gh stack switch"
+    st = "!gh stack top"
+    su = "!gh stack up"
+    sv = "!gh stack view"
 
     st = status
 
     up = "!git com && git p && git f"
     purge = "!git f && git bg | cut -f1-3 -d ' ' | xargs git bd"
     pup = "!git up && git purge"
-    remain ="!git com && git p && git co - && git rebase origin/main"
 
 [user]
 	name = Justin Johnson
