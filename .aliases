@@ -20,6 +20,8 @@ alias ona-id='gitpod env list --field id --limit 1 --running-only 2>/dev/null'
 alias ona-open='gitpod env open $(ona-id)'
 alias ona-ssh='ssh -t $(ona-id).gitpod.environment "zsh -l"'
 
+alias sessions='~/configure/claude-sessions'
+
 if command -v ack-grep >/dev/null; then
   alias ack='ack-grep'
 fi
