@@ -14,7 +14,7 @@
 
     co = checkout
     com = checkout main
-    cos = "!git checkout $(git branch --all | grep upmo | grep -v remote | fzf)"
+    cos = "!git checkout $(git branch --all | grep '\\(upmo\\)\\|\\(main\\)' | grep -v remote | fzf)"
 
     cp = cherry-pick
 
@@ -57,7 +57,7 @@
     # "rebase onto"
     ro = "!/${HOME}/config/git-rebase.sh"
     # "rebase onto" with fuzzy search
-    ros = "!git ro $(git branch --all | grep upmo | grep -v remote | fzf)"
+    ros = "!git ro $(git branch --all | grep '\\(upmo\\)\\|\\(\\main\\)' | grep -v remote | fzf)"
     # rebase against main
     remain ="!git com && git p && git co - && git rebase origin/main"
 
