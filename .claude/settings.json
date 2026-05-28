@@ -1,6 +1,33 @@
 {
   "permissions": {
     "allow": [
+      "Bash(awk *)",
+      "Bash(cat *)",
+      "Bash(comm *)",
+      "Bash(cut *)",
+      "Bash(diff *)",
+      "Bash(docker compose config *)",
+      "Bash(docker compose logs *)",
+      "Bash(docker compose ps *)",
+      "Bash(du *)",
+      "Bash(file *)",
+      "Bash(find *)",
+      "Bash(git fetch *)",
+      "Bash(grep *)",
+      "Bash(head *)",
+      "Bash(ls *)",
+      "Bash(oso-cloud *)",
+      "Bash(prek run *)",
+      "Bash(pup *)",
+      "Bash(sed *)",
+      "Bash(sort *)",
+      "Bash(stat *)",
+      "Bash(tail *)",
+      "Bash(tee *)",
+      "Bash(tr *)",
+      "Bash(uniq *)",
+      "Bash(wc *)",
+      "Bash(xargs *)",
       "Agent",
       "Bash(.claude/skills/pr-diagnostics/scripts/cleanup.sh:*)",
       "Bash(.claude/skills/pr-diagnostics/scripts/fetch-ci-logs.sh:*)",
@@ -149,6 +176,11 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true
   },
   "effortLevel": "high"
 }
