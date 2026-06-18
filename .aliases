@@ -19,6 +19,7 @@ alias ona='gitpod'
 alias ona-id='gitpod env list --field id --limit 1 --running-only 2>/dev/null'
 alias ona-open='gitpod env open $(ona-id)'
 alias ona-ssh='ssh -t $(ona-id).gitpod.environment "zsh -l"'
+alias ona-mount='/Users/jjohnson/dev/dotfiles-vanta/ona-mount'
 
 alias sessions='~/configure/claude-sessions'
 
