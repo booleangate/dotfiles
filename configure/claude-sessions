@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # List Claude Code sessions and pick one to resume via fzf.
+# Pass --delete to pick one or more sessions to delete instead of resuming.
 set -euo pipefail
 
 PROJECTS_DIR="$HOME/.claude/projects"
@@ -10,7 +11,7 @@ command -v jq  >/dev/null || { echo "jq not found in PATH"  >&2; exit 1; }
 uuid_re='[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
 
 list_sessions() {
-  find "$PROJECTS_DIR" -maxdepth 2 -name "*.jsonl" -type f -print0 |
+  find -L "$PROJECTS_DIR" -maxdepth 2 -name "*.jsonl" -type f -print0 |
     while IFS= read -r -d '' f; do
       sid=$(basename "$f" .jsonl)
       epoch=$(stat -c %Y "$f" 2>/dev/null || stat -f %m "$f")
@@ -30,34 +31,21 @@ list_sessions() {
     done | sort -r
 }
 
+file_for_session() {
+  local sid="$1"
+  find -L "$PROJECTS_DIR" -maxdepth 2 -name "${sid}.jsonl" -type f | head -1
+}
+
 cwd_for_session() {
   local sid="$1"
   local f
-  f=$(find "$PROJECTS_DIR" -maxdepth 2 -name "${sid}.jsonl" -type f | head -1)
+  f=$(file_for_session "$sid")
   [[ -z "$f" ]] && return 1
   grep -m1 '"type":"user"' "$f" 2>/dev/null | jq -r '.cwd // empty'
 }
 
-main() {
-  local rows selection sid cwd
-  rows=$(list_sessions)
-  [[ -z "$rows" ]] && { echo "No sessions found under $PROJECTS_DIR" >&2; exit 1; }
-
-  selection=$(
-    printf '%s\n' "$rows" |
-      column -ts $'\t' |
-      fzf \
-        --prompt="Resume session > " \
-        --height=90% \
-        --reverse \
-        --header="DATE              SESSION                                TOPIC" \
-        --no-sort
-  )
-  [[ -z "$selection" ]] && exit 0
-
-  sid=$(printf '%s' "$selection" | grep -oE "$uuid_re" | head -1)
-  [[ -z "$sid" ]] && { echo "Could not parse session id from selection" >&2; exit 1; }
-
+resume_session() {
+  local sid="$1" cwd
   cwd=$(cwd_for_session "$sid" || true)
   if [[ -z "$cwd" || ! -d "$cwd" ]]; then
     echo "Cannot determine working directory for $sid (got: '${cwd:-<empty>}')" >&2
@@ -67,6 +55,67 @@ main() {
   echo "Resuming $sid in $cwd" >&2
   cd "$cwd"
   exec claude --resume "$sid"
+}
+
+delete_sessions() {
+  local sids=("$@")
+  local sid f
+  for sid in "${sids[@]}"; do
+    f=$(file_for_session "$sid")
+    if [[ -z "$f" ]]; then
+      echo "No transcript found for $sid; skipping" >&2
+      continue
+    fi
+    rm -- "$f"
+    echo "Deleted $sid ($f)" >&2
+  done
+}
+
+main() {
+  local delete=0
+  case "${1:-}" in
+    --delete) delete=1 ;;
+    "") ;;
+    *) echo "Unknown argument: $1 (supported: --delete)" >&2; exit 1 ;;
+  esac
+
+  local rows selection sids
+  rows=$(list_sessions)
+  [[ -z "$rows" ]] && { echo "No sessions found under $PROJECTS_DIR" >&2; exit 1; }
+
+  local prompt header fzf_multi
+  if (( delete )); then
+    prompt="Delete session(s) > "
+    header="TAB to mark, ENTER to delete   DATE              SESSION                                TOPIC"
+    fzf_multi="--multi"
+  else
+    prompt="Resume session > "
+    header="DATE              SESSION                                TOPIC"
+    fzf_multi="--no-multi"
+  fi
+
+  selection=$(
+    printf '%s\n' "$rows" |
+      column -ts $'\t' |
+      fzf \
+        --prompt="$prompt" \
+        --height=90% \
+        --reverse \
+        --header="$header" \
+        --no-sort \
+        "$fzf_multi"
+  )
+  [[ -z "$selection" ]] && exit 0
+
+  sids=$(printf '%s' "$selection" | grep -oE "$uuid_re")
+  [[ -z "$sids" ]] && { echo "Could not parse session id from selection" >&2; exit 1; }
+
+  if (( delete )); then
+    # shellcheck disable=SC2086
+    delete_sessions $sids
+  else
+    resume_session "$(printf '%s\n' "$sids" | head -1)"
+  fi
 }
 
 main "$@"
