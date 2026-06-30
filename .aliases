@@ -17,7 +17,7 @@ alias local-https='caddy reverse-proxy --from localhost --to localhost:8080'
 
 alias ona='gitpod'
 #alias ona-id='gitpod env list --field id --limit 1 --running-only 2>/dev/null'
-alias ona-id='gitpod env list --running-only 2>/dev/null | tail -n +2 | cut -d '\'' '\'' -f 1,2 | fzf --reverse --height=90% --prompt='\''Ona instance > '\'' | cut -d '\'' '\'' -f 1'
+alias ona-id="gitpod env list --running-only 2>/dev/null | tail -n +2 | cut -d ' ' -f 1,2 |  sed -E 's/([^[:space:]]+)[[:space:]]+(.*)/\2 \1/' | sort --human-numeric-sort | fzf --reverse --height=90% --prompt='Ona instance > ' | cut -d ' ' -f 2"
 alias ona-open='gitpod env open $(ona-id)'
 alias ona-ssh='ssh -t $(ona-id).gitpod.environment "zsh -l"'
 alias ona-mount='/Users/jjohnson/dev/dotfiles-vanta/ona-mount'
