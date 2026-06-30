@@ -5,30 +5,115 @@ set -euo pipefail
 
 PROJECTS_DIR="$HOME/.claude/projects"
 
+# The transcripts live on a high-latency mounted filesystem (see ~/.claude/projects
+# symlink), so the script is dominated by I/O round-trips, not CPU. Two tricks cut them:
+#   1. Fan out per-file work so the mount's latency overlaps instead of stacking up.
+#   2. Cache each session's topic on LOCAL disk. A session's first user message never
+#      changes once written, so a cached topic is valid forever — repeat runs then read
+#      zero transcript bytes over the mount and only stat each file for its mtime.
+LIST_JOBS="${CLAUDE_SESSIONS_JOBS:-16}"
+TOPIC_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/claude-sessions/topics.tsv"
+
 command -v fzf >/dev/null || { echo "fzf not found in PATH" >&2; exit 1; }
 command -v jq  >/dev/null || { echo "jq not found in PATH"  >&2; exit 1; }
 
 uuid_re='[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
 
+# Prints "sid<TAB>mtime<TAB>topic" for one transcript, run in parallel via xargs so it
+# must be self-contained and tolerate transient read errors on the mount (degrade to a
+# skipped file rather than aborting the listing). $2=1 reads the file content to extract
+# the topic; $2=0 stats for mtime only (used when the topic is already cached).
+emit_session_meta() {
+  local f="$1" want_topic="$2" sid mtime first topic
+  sid=${f##*/}; sid=${sid%.jsonl}
+
+  # %y is already a human-readable mtime ("2026-06-30 00:28:..."); the first 16 chars
+  # are "YYYY-MM-DD HH:MM", which also sorts chronologically as plain text — no date(1).
+  mtime=$(stat -c '%y' "$f" 2>/dev/null) \
+    || mtime=$(stat -f '%Sm' -t '%Y-%m-%d %H:%M' "$f" 2>/dev/null) \
+    || return 0
+  mtime=${mtime:0:16}
+
+  topic=""
+  if [[ "$want_topic" == 1 ]]; then
+    first=$(grep -m1 '"type":"user"' "$f" 2>/dev/null) || true
+    if [[ -n "$first" ]]; then
+      topic=$(printf '%s' "$first" | jq -r '
+        (if (.message.content | type) == "string"
+         then .message.content
+         else (.message.content[0].text // "")
+         end)
+        | gsub("[\n\t]"; " ") | gsub(" +"; " ") | .[0:160]' 2>/dev/null) || topic=""
+    fi
+  fi
+
+  printf '%s\t%s\t%s\n' "$sid" "$mtime" "$topic"
+}
+
+# Stats each given transcript in parallel, extracting topics only for the listed sids.
+# Output: "sid<TAB>mtime<TAB>topic" lines (topic empty for the stat-only files).
+collect_meta() {
+  local want_topic="$1"; shift
+  [[ $# -eq 0 ]] && return 0
+  export -f emit_session_meta
+  printf '%s\0' "$@" |
+    xargs -0 -P "$LIST_JOBS" -I{} bash -c 'emit_session_meta "$1" "$2"' _ {} "$want_topic"
+}
+
+# Returns the cached topic for a sid (empty if absent). macOS ships bash 3.2, which has
+# no associative arrays, so the cache is keyed by a grep over the file instead. The cache
+# lives on local disk and the kernel keeps it warm, so a grep per lookup is far cheaper
+# than the one mount round-trip the cache exists to avoid. A sid is a fixed-length UUID
+# with no regex metacharacters, so the "^sid<TAB>" anchor matches exactly one line.
+cached_topic() {
+  [[ -f "$TOPIC_CACHE" ]] || return 0
+  grep -m1 -- "^$1"$'\t' "$TOPIC_CACHE" 2>/dev/null | cut -f2-
+}
+
 list_sessions() {
-  find -L "$PROJECTS_DIR" -maxdepth 2 -name "*.jsonl" -type f -print0 |
-    while IFS= read -r -d '' f; do
-      sid=$(basename "$f" .jsonl)
-      epoch=$(stat -c %Y "$f" 2>/dev/null || stat -f %m "$f")
-      mtime=$(date -d "@$epoch" "+%Y-%m-%d %H:%M" 2>/dev/null || date -r "$epoch" "+%Y-%m-%d %H:%M")
-      first=$(grep -m1 '"type":"user"' "$f" 2>/dev/null || true)
-      topic=""
-      if [[ -n "$first" ]]; then
-        topic=$(printf '%s' "$first" | jq -r '
-          if (.message.content | type) == "string"
-          then .message.content
-          else (.message.content[0].text // "")
-          end' 2>/dev/null || true)
-      fi
-      topic=$(printf '%s' "$topic" | tr '\n\t' '  ' | sed -E 's/ +/ /g' | cut -c1-160)
-      [[ -z "$topic" ]] && topic="(no user message)"
-      printf '%s\t%s\t%s\n' "$mtime" "$sid" "$topic"
-    done | sort -r
+  # Listing the directory is cheap; stat-ing every file is the mount-killer, so we defer
+  # all stats to the parallel workers below rather than letting find do them serially.
+  # read -d '' (vs mapfile, which is bash 4+) keeps this working on macOS bash 3.2.
+  local paths=() f
+  while IFS= read -r -d '' f; do paths+=("$f"); done \
+    < <(find -L "$PROJECTS_DIR" -maxdepth 2 -name "*.jsonl" -print0)
+  [[ ${#paths[@]} -eq 0 ]] && return 0
+
+  local sid cached=() uncached=()
+  for f in "${paths[@]}"; do
+    sid=${f##*/}; sid=${sid%.jsonl}
+    if [[ -n "$(cached_topic "$sid")" ]]; then cached+=("$f"); else uncached+=("$f"); fi
+  done
+
+  local meta
+  meta=$( collect_meta 0 ${cached[@]+"${cached[@]}"}; collect_meta 1 ${uncached[@]+"${uncached[@]}"} )
+  [[ -z "$meta" ]] && return 0
+
+  # The here-string keeps this loop in the current shell (no subshell from a pipe). We
+  # build both the display rows and the next cache here, so the cache ends up holding
+  # exactly the sessions that exist now — stale entries for deleted sessions drop out.
+  # Sessions with no real topic yet are omitted so they get re-read once a message lands.
+  local mtime topic rows="" next_cache=""
+  while IFS=$'\t' read -r sid mtime topic; do
+    [[ -z "$topic" ]] && topic=$(cached_topic "$sid")
+    [[ -z "$topic" ]] && topic="(no user message)"
+    rows+="$mtime"$'\t'"$sid"$'\t'"$topic"$'\n'
+    [[ "$topic" != "(no user message)" ]] && next_cache+="$sid"$'\t'"$topic"$'\n'
+  done <<< "$meta"
+
+  printf '%s' "$rows" | sort -r
+  write_topic_cache "$next_cache"
+}
+
+# Atomically replaces the cache file with the given "sid<TAB>topic" body. The temp-file
+# rename avoids a torn read if two invocations race.
+write_topic_cache() {
+  local body="$1" dir tmp
+  dir=${TOPIC_CACHE%/*}
+  mkdir -p "$dir" || return 0
+  tmp=$(mktemp "$dir/.topics.XXXXXX") || return 0
+  printf '%s' "$body" > "$tmp"
+  mv -f "$tmp" "$TOPIC_CACHE" 2>/dev/null || rm -f "$tmp"
 }
 
 file_for_session() {
