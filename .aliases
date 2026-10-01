@@ -25,6 +25,8 @@ alias ona-open='gitpod env open $(ona-id)'
 alias ona-ssh='ssh -t $(ona-id).gitpod.environment "zsh -l"'
 alias ona-mount='/Users/jjohnson/dev/dotfiles-vanta/ona-mount'
 
+alias just='devbox run -- just'
+
 alias sessions='~/configure/claude-sessions'
 
 if command -v ack-grep >/dev/null; then

@@ -37,3 +37,9 @@ else
     echo "Starship not found"
 fi
 . "$HOME/.local/bin/env"
+
+if [ -f "$HOME/.env" ]; then
+    source "$HOME/.env"
+else 
+    echo "FYI: no .env file"
+fi
