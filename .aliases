@@ -25,7 +25,12 @@ alias ona-open='gitpod env open $(ona-id)'
 alias ona-ssh='ssh -t $(ona-id).gitpod.environment "zsh -l"'
 alias ona-mount='/Users/jjohnson/dev/dotfiles-vanta/ona-mount'
 
-alias just='devbox run -- just'
+alias localdev-boot="colima start"
+alias localdev="cd ~/dev/obsidian && echo 'ℹ️️  Run cursor . after shell starts'  && devbox shell"
+
+alias ob="cd ~/dev/obsidian"
+
+##alias just='devbox run -- just'
 
 alias sessions='~/configure/claude-sessions'
 
