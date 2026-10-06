@@ -159,7 +159,7 @@ delete_sessions() {
 main() {
   local delete=0
   case "${1:-}" in
-    --delete) delete=1 ;;
+    --delete|-d) delete=1 ;;
     "") ;;
     *) echo "Unknown argument: $1 (supported: --delete)" >&2; exit 1 ;;
   esac
