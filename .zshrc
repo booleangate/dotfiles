@@ -38,6 +38,9 @@ else
 fi
 . "$HOME/.local/bin/env"
 
+# asdf version manager
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
 if [ -f "$HOME/.env" ]; then
     source "$HOME/.env"
 else 
